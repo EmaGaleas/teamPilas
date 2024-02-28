@@ -253,6 +253,7 @@ bool lista<tipo>::EliminarInicio(tipo &Dato)
     }else{
         if (Cant == 1) {
             if (UltPtr->Dato == Dato) {
+                Dato=PrimPtr->Dato;
                 delete PrimPtr;
                 PrimPtr=nullptr;
                 UltPtr=nullptr;
@@ -262,6 +263,7 @@ bool lista<tipo>::EliminarInicio(tipo &Dato)
         }else if(PrimPtr->Dato==Dato){
             nodo<tipo> *eliminar=PrimPtr;
             PrimPtr = PrimPtr->SigPtr;
+            Dato=eliminar->Dato;
             delete eliminar;
             Cant--;
             actualizarUltimo();

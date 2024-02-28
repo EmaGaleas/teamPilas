@@ -19,6 +19,7 @@ cframe::cframe(QWidget *parent)
     ui->TB_Letra->setEnabled(false);
     ui->Btn_Aceptar->setEnabled(false);
 
+    ui->CB_ORDEN->setVisible(false);
 
 }
 
@@ -60,16 +61,17 @@ void cframe::MostarDoble()//izquierda-act-derecha
 
 void cframe::MPilaDoble()
 {
-    Actptr = pil.PrimPtr;
-    Ultimo = pil.UltPtr;
+    actD = pilD.PrimPtr;
+    ultD = pilD.UltPtr;
     ui->TW_MOSTRAR->clear();
-    ui->TW_MOSTRAR->setColumnCount(3);//tab 1 tw_mostrarpila
-    ui->TW_MOSTRAR->setRowCount(pil.Cant) ;
-    ui->TW_MOSTRAR->setHorizontalHeaderLabels(QStringList() <<"PILA Izquierda"<<"PILA dato"<<"PILA Derecha");
+    ui->TW_MOSTRAR->setColumnCount(3);
+    ui->TW_MOSTRAR->setRowCount(pilD.Cantidad) ;
+    ui->TW_MOSTRAR->setHorizontalHeaderLabels(QStringList() <<"PILAD Izquierda"<<"PILAD dato"<<"PILAD Derecha");
 
-    for (int f = 0; f < pil.Cant; Actptr = Actptr->SigPtr, f++) {
-        ui->TW_MOSTRAR->setItem(f, 0, new QTableWidgetItem(QString::fromStdString("") + Actptr->Dato));
-        ui->TW_MOSTRAR->setItem(0, 1, new QTableWidgetItem(QString::fromStdString("") + Ultimo->Dato));
+    for (int f = 0; f < pilD.Cantidad; actD = actD->SigPtr, f++) {
+        ui->TW_MOSTRAR->setItem(f,0,new QTableWidgetItem(QString::fromStdString("") + ((actD->AntPtr!=0)? actD->AntPtr->Dato : 0)));
+        ui->TW_MOSTRAR->setItem(f,1,new QTableWidgetItem(QString::fromStdString("") + actD->Dato));
+        ui->TW_MOSTRAR->setItem(f,2,new QTableWidgetItem(QString::fromStdString("") + ((actD->SigPtr!=0)? actD->SigPtr->Dato : 0)));
     }
 }
 
@@ -125,18 +127,24 @@ void cframe::actualizarSubmenu(bool activado){
 void cframe::on_RB_Lista_clicked()
 {
     actualizarSubmenu(true);
+    ui->CB_ORDEN->setVisible(false);
+
 }
 
 
 void cframe::on_RB_Pila_clicked()
 {
     actualizarSubmenu(true);
+    ui->CB_ORDEN->setVisible(true);
+
 }
 
 
 void cframe::on_RB_Cola_clicked()
 {
     actualizarSubmenu(true);
+    ui->CB_ORDEN->setVisible(true);
+
 }
 
 void cframe::on_RB_Arbol_clicked()
@@ -147,6 +155,8 @@ void cframe::on_RB_Arbol_clicked()
     ui->TB_Letra->clear();
     ui->RB_Simple->setCheckable(false);
     ui->RB_Doble->setCheckable(false);
+    ui->CB_ORDEN->setVisible(false);
+
 }
 
 
@@ -185,12 +195,34 @@ void cframe::on_Btn_Aceptar_clicked()
             }
             MCola();
         }else if(ui->RB_Pila->isChecked()){
-            if(ui->CB_ORDEN->currentIndex()==0){
-                pil.Empujar(Letra);
+
+            if(ui->RB_Simple->isChecked()){
+                if(ui->CB_ORDEN->currentIndex()==0){
+                    pil.Empujar(Letra);
+                    MPila();
+                }else{
+                    if(pil.Sacar(Letra)){
+                        QMessageBox::information(this,"Del Pila","Eliminado correctamente");
+                        MPila();
+
+                    }else{
+                        QMessageBox::warning(this, "No funca", "Datos a sacar no coinciden");
+                    }
+                }
             }else{
-                pil.Sacar(Letra);
+                if(ui->CB_ORDEN->currentIndex()==0){
+                    pilD.Empujar(Letra);
+                    MPilaDoble();
+                }else{
+                    if( pilD.Sacar(Letra)){
+                        QMessageBox::information(this,"Del Pila","Eliminado correctamente");
+                        MPilaDoble();
+
+                    }else{
+                        QMessageBox::warning(this, "No funca", "Datos a sacar no coinciden");
+                    }
+                }
             }
-            MPila();
         }else if(ui->RB_Arbol->isChecked()){
 
         }

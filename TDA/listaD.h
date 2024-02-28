@@ -30,7 +30,7 @@ public:
 //    void InsertarDecreciente(const tipo &);
     bool InsertarPosicion(const tipo &,int);
 
-//    bool EliminarInicio(tipo &);
+    bool EliminarInicio(tipo &);
 //    bool Eliminar2daPos(tipo &);
 //    bool Eliminar3raPos(tipo &);
 //    bool EliminarAntePneultima(tipo &);
@@ -255,6 +255,33 @@ bool listaD<tipo>::InsertarPosicion(const tipo &Dato, int pos)
         return true;
     }
 
+}
+
+template<typename tipo>
+bool listaD<tipo>::EliminarInicio(tipo &Dato)
+{
+    if(Vacia()){
+        return false;
+    }else{
+        if (Cantidad == 1 && PrimPtr->Dato==Dato) {
+                delete PrimPtr;
+                PrimPtr=nullptr;
+                UltPtr=nullptr;
+                Cantidad = 0;
+                return true;
+
+        }else if(PrimPtr->Dato==Dato && Cantidad>1){
+            nodoD<tipo> *eliminar=PrimPtr;
+            PrimPtr = PrimPtr->SigPtr;
+            PrimPtr->AntPtr=0;
+            delete eliminar;
+            Cantidad--;
+            actualizarUltimo();
+            return true;
+        }
+
+    }
+    return false;
 }
 
 template<typename tipo>
