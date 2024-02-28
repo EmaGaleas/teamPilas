@@ -16,6 +16,7 @@ HEADERS += \
     arbol.h \
     cframe.h \
     cola.h \
+    colaD.h \
     lista.h \
     listaD.h \
     nodo.h \

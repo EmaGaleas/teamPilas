@@ -75,6 +75,22 @@ void cframe::MPilaDoble()
     }
 }
 
+void cframe::MColaDoble()
+{
+    actD = colD.PrimPtr;
+    ultD = colD.UltPtr;
+    ui->TW_MOSTRAR->clear();
+    ui->TW_MOSTRAR->setColumnCount(3);
+    ui->TW_MOSTRAR->setRowCount(colD.Cantidad) ;
+    ui->TW_MOSTRAR->setHorizontalHeaderLabels(QStringList() <<"COLAD Izquierda"<<"COLAD dato"<<"COLAD Derecha");
+
+    for (int f = 0; f < colD.Cantidad; actD = actD->SigPtr, f++) {
+        ui->TW_MOSTRAR->setItem(f,0,new QTableWidgetItem(QString::fromStdString("") + ((actD->AntPtr!=0)? actD->AntPtr->Dato : 0)));
+        ui->TW_MOSTRAR->setItem(f,1,new QTableWidgetItem(QString::fromStdString("") + actD->Dato));
+        ui->TW_MOSTRAR->setItem(f,2,new QTableWidgetItem(QString::fromStdString("") + ((actD->SigPtr!=0)? actD->SigPtr->Dato : 0)));
+    }
+}
+
 void cframe::MPila()
 {
     Actptr = pil.PrimPtr;
@@ -188,12 +204,21 @@ void cframe::on_Btn_Aceptar_clicked()
                 MostarDoble();
             }
         }else if(ui->RB_Cola->isChecked()){
-            if(ui->CB_ORDEN->currentIndex()==0){
-                col.Entra(Letra);
+            if(ui->RB_Simple->isChecked()){
+                if(ui->CB_ORDEN->currentIndex()==0){
+                    col.Entra(Letra);
+                }else{
+                    col.Sale(Letra);
+                }
+                MCola();
             }else{
-                col.Sale(Letra);
+                if(ui->CB_ORDEN->currentIndex()==0){
+                    colD.Empujar(Letra);
+                }else{
+                    colD.Sacar(Letra);
+                }
+                MColaDoble();
             }
-            MCola();
         }else if(ui->RB_Pila->isChecked()){
 
             if(ui->RB_Simple->isChecked()){
@@ -332,8 +357,8 @@ void cframe::on_btn_ingresar_clicked()
             }
 
         }else if(ui->rb_inPila->isChecked()){
-             pil.Empujar(Letra);
-             MPila();
+            pil.Empujar(Letra);
+            MPila();
         }else if(ui->rb_delPila->isChecked()){
             if( pil.Sacar(Letra)==true){
                 QMessageBox::warning(this, "si funca", "Eliminado correctamente");
@@ -342,8 +367,8 @@ void cframe::on_btn_ingresar_clicked()
             }
             MPila();
         }else if(ui->rb_inCola->isChecked()){
-             col.Entra(Letra);
-             MCola();
+            col.Entra(Letra);
+            MCola();
         }else if(ui->rb_delCola->isChecked()){
             if( col.Sale(Letra)==true){
                 QMessageBox::warning(this, "si funca", "Eliminado correctamente");

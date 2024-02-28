@@ -7,6 +7,7 @@
 #include <cola.h>
 #include <listaD.h>
 #include <pilasD.h>
+#include <colaD.h>
 
 
 QT_BEGIN_NAMESPACE
@@ -29,6 +30,7 @@ public:
     void MCola();
     void MostarDoble();
     void MPilaDoble();
+    void MColaDoble();
 
 private slots:
     void on_btn_ingresar_clicked();
@@ -68,6 +70,7 @@ private:
     nodoD<char> *ultD;
 
     pilasD<char> pilD;
+    colaD<char> colD;
 
 };
 #endif // CFRAME_H
