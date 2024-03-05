@@ -155,11 +155,19 @@ void cframe::Preorden() {
 
 void cframe::Preorden(nodoD<char> *actPtr)
 {
+     //AQUI TRUENA
     if (actPtr != 0){
-       ui->TW_MOSTRAR->setItem(m, 0, new QTableWidgetItem(QString::fromStdString("") + actPtr->Dato));
+       ui->TW_MOSTRAR->setItem(m, 1, new QTableWidgetItem(QString::fromStdString("") + actPtr->Dato));
+       if(actPtr->SubArbolIzq()->getDato() != 0){
+           //ui->TW_MOSTRAR->setItem(m, 0, new QTableWidgetItem(QString::fromStdString("") + actPtr->SubArbolIzq()->getDato()));
+           //Preorden(actPtr->SubArbolIzq());
+       }
+       if(actPtr->SubArbolDer()->getDato() != 0){
+           //ui->TW_MOSTRAR->setItem(m, 2, new QTableWidgetItem(QString::fromStdString("") + actPtr->SubArbolDer()->getDato()));
+           //Preorden(actPtr->SubArbolDer());
+       }
+
         m++;
-        Preorden(actPtr->SubArboIzq());
-        Preorden(actPtr->SubArbolDel());
 
     }
 }
@@ -179,8 +187,8 @@ void cframe::Postorden()
 void cframe::Postorden(nodoD<char> *actPtr)
 {
     if (actPtr != 0){
-        Postorden(actPtr->SubArboIzq());
-        Postorden(actPtr->SubArbolDel());
+        Postorden(actPtr->SubArbolIzq());
+        Postorden(actPtr->SubArbolDer());
         ui->TW_MOSTRAR->setItem(m, 0, new QTableWidgetItem(QString::fromStdString("") + actPtr->Dato));
         m++;
     }
@@ -200,10 +208,10 @@ void cframe::Inorden()
 void cframe::Inorden(nodoD<char> *actPtr)
 {
     if (actPtr != 0){
-        Inorden(actPtr->SubArboIzq());
+        Inorden(actPtr->SubArbolIzq());
         ui->TW_MOSTRAR->setItem(m, 0, new QTableWidgetItem(QString::fromStdString("") + actPtr->Dato));
         m++;
-        Inorden(actPtr->SubArbolDel());
+        Inorden(actPtr->SubArbolDer());
     }
 }
 void cframe::on_RB_Lista_clicked()
@@ -323,8 +331,9 @@ void cframe::on_Btn_Aceptar_clicked()
         }else if(ui->RB_Arbol->isChecked()){
             if(ui->rb_preorden->isChecked()){
                 if(arbol.esVacio()){
-                    arbol.nuevoArbol(0,Letra,0);
-                    QMessageBox::warning(this, "", ""+ arbol.getRaiz()->getDato());//para ver si carga aunque sea eso
+                    arbol.insertar(Letra);
+                    cout << arbol.getRaiz()->getDato();
+                    QMessageBox::warning(this, "", "Dato de raiz: "+ arbol.getRaiz()->getDato());//para ver si carga aunque sea eso
                 }else{
                     arbol.insertar(Letra);
 

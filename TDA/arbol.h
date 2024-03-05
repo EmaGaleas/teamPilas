@@ -60,8 +60,8 @@ void arbol<tipo>::preOrden(nodoD<tipo> *actPtr)//RID
 {
     if (actPtr != 0){
          actPtr->getDato();
-         preOrden(actPtr->SubArboIzq());
-         preOrden(actPtr->SubArbolDel());
+         preOrden(actPtr->SubArbolIzq());
+         preOrden(actPtr->SubArbolDer());
     }
 }
 
@@ -69,8 +69,8 @@ template<typename tipo>
 void arbol<tipo>::postOrden(nodoD<tipo> *actPtr)//IDR
 {
     if (actPtr != 0){
-        postOrden(actPtr->SubArboIzq());
-        postOrden(actPtr->SubArbolDel());
+        postOrden(actPtr->SubArbolIzq());
+        postOrden(actPtr->SubArbolDer());
         actPtr->getDato();
     }
 }
@@ -79,9 +79,9 @@ template<typename tipo>
 void arbol<tipo>::InOrden(nodoD<tipo> *actPtr)//IRD
 {
     if (actPtr != 0){
-        InOrden(actPtr->SubArboIzq());
+        InOrden(actPtr->SubArbolIzq());
         actPtr->getDato();
-        InOrden(actPtr->SubArbolDel());
+        InOrden(actPtr->SubArbolDer());
     }
 }
 
@@ -100,8 +100,8 @@ int arbol<tipo>::altura(nodoD<tipo> *r)
     if (r == 0){
         return 0 ;
     }else{
-        int alturaIz = altura(r->SubArboIzq());
-        int alturaDr = altura(r->SubArbolDel());
+        int alturaIz = altura(r->SubArbolIzq());
+        int alturaDr = altura(r->SubArbolDer());
         if (alturaIz > alturaDr)
             return alturaIz + 1;
         else
@@ -119,8 +119,8 @@ template<typename tipo>
 void arbol<tipo>::vaciar(nodoD<tipo> *r)
 {
     if(r!=0){
-        vaciar(r->SubArboIzq());
-        vaciar(r->SubArbolDel());
+        vaciar(r->SubArbolIzq());
+        vaciar(r->SubArbolDer());
         r=nullptr;
         delete r;
     }
@@ -158,7 +158,7 @@ template<typename tipo>
 nodoD<tipo> *arbol<tipo>::hijoIzq()
 {
     if(RaizPtr){
-        return RaizPtr->SubArboIzq();
+        return RaizPtr->SubArbolIzq();
     }else{
         throw std::runtime_error("Árbol vacío");
     }
@@ -192,21 +192,19 @@ nodoD<tipo> *arbol<tipo>::insertar(nodoD<tipo> *r,const tipo &dato)
 {
     if (r == 0){
         r = nuevoArbol(0, dato, 0);
-        Cant ++;
     }else if (dato < r->getDato()){
          nodoD<tipo> *iz;
-         iz = insertar(r->SubArboIzq(), dato);
+         iz = insertar(r->SubArbolIzq(), dato);
          r->ramaIzda(iz);
-         Cant ++;
     }else if (dato > r->getDato()){
         nodoD<tipo>  *dr;
-        dr = insertar(r->SubArbolDel(), dato);
+        dr = insertar(r->SubArbolDer(), dato);
         r->ramaDcha(dr);
-        Cant ++;
     }else{
         throw "Nodo duplicado"; // tratamiento de repetición
         return r;
     }
+    return r;
 
 }
 
