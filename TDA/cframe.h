@@ -8,6 +8,7 @@
 #include <listaD.h>
 #include <pilasD.h>
 #include <colaD.h>
+#include <arbol.h>
 
 
 QT_BEGIN_NAMESPACE
@@ -21,16 +22,23 @@ class cframe : public QMainWindow
 public:
     cframe(QWidget *parent = nullptr);
     ~cframe();
-    //nuevos
+
     void actualizarSubmenu(bool activado);
 
     //viejos
     void MostrarSimple();
     void MPila();
     void MCola();
+    //nuevos
     void MostarDoble();
     void MPilaDoble();
     void MColaDoble();
+    void Preorden();
+    void Preorden(nodoD<char> *a);
+    void Postorden();
+    void Postorden(nodoD<char> *a);
+    void Inorden();
+    void Inorden(nodoD<char> *a);
 
 private slots:
     void on_btn_ingresar_clicked();
@@ -71,6 +79,12 @@ private:
 
     pilasD<char> pilD;
     colaD<char> colD;
+
+    arbol<char> arbol;
+
+    int h;
+    int m=0;
+
 
 };
 #endif // CFRAME_H

@@ -20,6 +20,7 @@ cframe::cframe(QWidget *parent)
     ui->Btn_Aceptar->setEnabled(false);
 
     ui->CB_ORDEN->setVisible(false);
+    ui->GB_orden->setVisible(false);
 
 }
 
@@ -136,14 +137,80 @@ void cframe::actualizarSubmenu(bool activado){
     ui->RB_Pila->setChecked(false);
     ui->RB_Lista->setChecked(false);
     ui->RB_Arbol->setChecked(false);
-
+    ui->rb_post->setChecked(false);
+    ui->rb_inorden->setChecked(false);
+    ui->rb_preorden->setChecked(false);
 
 }
 
+void cframe::Preorden() {
+    h=arbol.Cant;//altura del arbol
+    ui->TW_MOSTRAR->clear();
+    ui->TW_MOSTRAR->setColumnCount(3);
+    ui->TW_MOSTRAR->setHorizontalHeaderLabels(QStringList() << "Hijo Izq" << "AR DATO " << "Hijo Der");
+    ui->TW_MOSTRAR->setRowCount(h) ;
+    m=0;
+    Preorden(arbol.RaizPtr);
+}
+
+void cframe::Preorden(nodoD<char> *actPtr)
+{
+    if (actPtr != 0){
+       ui->TW_MOSTRAR->setItem(m, 0, new QTableWidgetItem(QString::fromStdString("") + actPtr->Dato));
+        m++;
+        Preorden(actPtr->SubArboIzq());
+        Preorden(actPtr->SubArbolDel());
+
+    }
+}
+
+
+void cframe::Postorden()
+{
+    h=arbol.Cant;//altura del arbol
+    ui->TW_MOSTRAR->clear();
+    ui->TW_MOSTRAR->setColumnCount(3);
+    ui->TW_MOSTRAR->setHorizontalHeaderLabels(QStringList() << "Hijo Izq" << "AR DATO " << "Hijo Der");
+    ui->TW_MOSTRAR->setRowCount(h) ;
+    m=0;
+    Postorden(arbol.RaizPtr);
+}
+
+void cframe::Postorden(nodoD<char> *actPtr)
+{
+    if (actPtr != 0){
+        Postorden(actPtr->SubArboIzq());
+        Postorden(actPtr->SubArbolDel());
+        ui->TW_MOSTRAR->setItem(m, 0, new QTableWidgetItem(QString::fromStdString("") + actPtr->Dato));
+        m++;
+    }
+}
+
+void cframe::Inorden()
+{
+    h=arbol.Cant;//altura del arbol
+    ui->TW_MOSTRAR->clear();
+    ui->TW_MOSTRAR->setColumnCount(3);
+    ui->TW_MOSTRAR->setHorizontalHeaderLabels(QStringList() << "Hijo Izq" << "AR DATO " << "Hijo Der");
+    ui->TW_MOSTRAR->setRowCount(h) ;
+    m=0;
+    Inorden(arbol.RaizPtr);
+}
+
+void cframe::Inorden(nodoD<char> *actPtr)
+{
+    if (actPtr != 0){
+        Inorden(actPtr->SubArboIzq());
+        ui->TW_MOSTRAR->setItem(m, 0, new QTableWidgetItem(QString::fromStdString("") + actPtr->Dato));
+        m++;
+        Inorden(actPtr->SubArbolDel());
+    }
+}
 void cframe::on_RB_Lista_clicked()
 {
     actualizarSubmenu(true);
     ui->CB_ORDEN->setVisible(false);
+    ui->GB_orden->setVisible(false);
 
 }
 
@@ -152,6 +219,7 @@ void cframe::on_RB_Pila_clicked()
 {
     actualizarSubmenu(true);
     ui->CB_ORDEN->setVisible(true);
+    ui->GB_orden->setVisible(false);
 
 }
 
@@ -160,6 +228,8 @@ void cframe::on_RB_Cola_clicked()
 {
     actualizarSubmenu(true);
     ui->CB_ORDEN->setVisible(true);
+    ui->GB_orden->setVisible(false);
+
 
 }
 
@@ -172,6 +242,7 @@ void cframe::on_RB_Arbol_clicked()
     ui->RB_Simple->setCheckable(false);
     ui->RB_Doble->setCheckable(false);
     ui->CB_ORDEN->setVisible(false);
+    ui->GB_orden->setVisible(true);
 
 }
 
@@ -180,6 +251,7 @@ void cframe::on_RB_Arbol_clicked()
 void cframe::on_RB_Simple_clicked()
 {
     ui->TB_Letra->setEnabled(true);
+
 }
 
 void cframe::on_RB_Doble_clicked()
@@ -249,6 +321,37 @@ void cframe::on_Btn_Aceptar_clicked()
                 }
             }
         }else if(ui->RB_Arbol->isChecked()){
+            if(ui->rb_preorden->isChecked()){
+                if(arbol.esVacio()){
+                    arbol.nuevoArbol(0,Letra,0);
+                    QMessageBox::warning(this, "", ""+ arbol.getRaiz()->getDato());//para ver si carga aunque sea eso
+                }else{
+                    arbol.insertar(Letra);
+
+                }
+                QMessageBox::warning(this,"",QString::number(arbol.Cant));
+                Preorden();
+            }else if(ui->rb_post->isChecked()){
+                if(arbol.esVacio()){
+                    arbol.nuevoArbol(0,Letra,0);
+                    QMessageBox::warning(this, "", ""+ arbol.getRaiz()->getDato());
+                }else{
+                    arbol.insertar(Letra);
+
+                }
+                QMessageBox::warning(this,"",QString::number(arbol.Cant));
+                Postorden();
+            }else if(ui->rb_inorden->isChecked()){
+                if(arbol.esVacio()){
+                    arbol.nuevoArbol(0,Letra,0);
+                    QMessageBox::warning(this, "", ""+ arbol.getRaiz()->getDato());
+                }else{
+                    arbol.insertar(Letra);
+
+                }
+                QMessageBox::warning(this,"",QString::number(arbol.Cant));
+                Inorden();
+            }
 
         }
 

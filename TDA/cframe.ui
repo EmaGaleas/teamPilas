@@ -637,7 +637,7 @@
       <property name="geometry">
        <rect>
         <x>1080</x>
-        <y>260</y>
+        <y>300</y>
         <width>113</width>
         <height>25</height>
        </rect>
@@ -647,7 +647,7 @@
       <property name="geometry">
        <rect>
         <x>1100</x>
-        <y>310</y>
+        <y>340</y>
         <width>81</width>
         <height>41</height>
        </rect>
@@ -660,7 +660,7 @@
       <property name="geometry">
        <rect>
         <x>1010</x>
-        <y>260</y>
+        <y>300</y>
         <width>54</width>
         <height>17</height>
        </rect>
@@ -688,6 +688,58 @@
         <string>POP</string>
        </property>
       </item>
+     </widget>
+     <widget class="QGroupBox" name="GB_orden">
+      <property name="geometry">
+       <rect>
+        <x>1140</x>
+        <y>190</y>
+        <width>120</width>
+        <height>101</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Tipo de orden</string>
+      </property>
+      <widget class="QRadioButton" name="rb_post">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>30</y>
+         <width>97</width>
+         <height>22</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>PostOrden</string>
+       </property>
+      </widget>
+      <widget class="QRadioButton" name="rb_inorden">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>50</y>
+         <width>97</width>
+         <height>22</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Inorden</string>
+       </property>
+      </widget>
+      <widget class="QRadioButton" name="rb_preorden">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>70</y>
+         <width>97</width>
+         <height>22</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Preorden</string>
+       </property>
+      </widget>
      </widget>
     </widget>
    </widget>

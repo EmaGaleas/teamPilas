@@ -21,8 +21,13 @@ public:
     nodoD(const tipo &);
     nodoD(nodoD<tipo> *, const tipo &, nodoD<tipo> *);
     tipo getDato()const;
+
+    //ARBOL
     nodoD<tipo>* SubArboIzq();
     nodoD<tipo>* SubArbolDel();
+    void ramaIzda(nodoD<tipo> *i);
+    void ramaDcha(nodoD<tipo> *d);
+
 };
 
 template<typename tipo>
@@ -37,6 +42,8 @@ tipo nodoD<tipo>::getDato() const
 {
     return Dato;
 }
+
+
 //Exclusivo para Manejo de Árboles Binarios y/o AVL
 template<typename tipo>
 nodoD<tipo> *nodoD<tipo>::SubArboIzq()
@@ -49,6 +56,22 @@ nodoD<tipo> *nodoD<tipo>::SubArbolDel()
 {
     return this->SigPtr;
 }
+
+template<typename tipo>
+void nodoD<tipo>::ramaIzda(nodoD<tipo> *i)
+{
+    this->AntPtr=i;//izquierda es lo mismo que antpr
+}
+
+template<typename tipo>
+void nodoD<tipo>::ramaDcha(nodoD<tipo> *d)
+{
+    this->SigPtr=d;//derecha es lo mismo que sigptr
+}
+
+
+
+
 
 #endif // NODOD_H
 
